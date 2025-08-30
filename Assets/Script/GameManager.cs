@@ -6,13 +6,15 @@ public class GameManager : Singleton<GameManager>
 {
     private int _score;
 
+    private int _highScore;
+
+    #region Event
     public event Action<int> OnChangeScore;
 
     public event Action OnGameOver;
 
     public event Action OnHighScoreChange;
-
-    private int _highScore;
+    #endregion
 
     private void Start()
     {

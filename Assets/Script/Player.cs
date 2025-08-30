@@ -1,25 +1,26 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
+    #region Field
     [SerializeField]
-    private int _moveSpeed;
+    private int moveSpeed;
 
     [SerializeField]
-    private int _jumpPower;
+    private int jumpPower;
 
     [SerializeField]
-    private GameObject _model;
+    private GameObject model;
 
     [SerializeField]
-    private TrailRenderer _trailRenderer;
+    private TrailRenderer trailRenderer;
 
     [SerializeField]
-    LayerMask _tileLayer;
+    private LayerMask tileLayer;
 
     [SerializeField]
-    private AudioClip _moveSound;
+    private AudioClip moveSound;
+    #endregion
 
     private Rigidbody _rigidbody;
 
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.PlaySound(_moveSound);    
+        SoundManager.Instance.PlaySound(moveSound);
     }
 
     private void Update()
@@ -50,33 +51,33 @@ public class Player : MonoBehaviour
 
     private void Move(float acceleration)
     {
-        transform.Translate((Vector3.forward + Vector3.right * acceleration * 1.4f) * _moveSpeed * Time.deltaTime, Space.World);
+        transform.Translate(moveSpeed * Time.deltaTime * (Vector3.forward + 1.4f * acceleration * Vector3.right), Space.World);
     }
 
     private void Rotate(float acceleration)
     {
-        _model.transform.rotation = Quaternion.Euler(Vector3.back * 30 * acceleration);
+        model.transform.rotation = Quaternion.Euler(30 * acceleration * Vector3.back);
     }
 
     private void Jump()
     {
         if (_isGround && Input.GetKeyDown(KeyCode.Space))
         {
-            _rigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
         if (_isGround && Input.acceleration.y >= 1)
         {
-            _rigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
     }
 
     private void CheckGround()
     {
-        Ray ray = new Ray(transform.position, Vector3.down);
+        Ray ray = new(transform.position, Vector3.down);
 
         Debug.DrawRay(transform.position, Vector3.down * 1.8f, Color.red);
 
-        if (Physics.Raycast(ray, 1.8f, _tileLayer))
+        if (Physics.Raycast(ray, 1.8f, tileLayer))
         {
             _isGround = true;
         }
@@ -84,7 +85,7 @@ public class Player : MonoBehaviour
         {
             _isGround = false;
         }
-        _trailRenderer.emitting = _isGround;
+        trailRenderer.emitting = _isGround;
     }
 
     private void OnTriggerEnter(Collider other)
