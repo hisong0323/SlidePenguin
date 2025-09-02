@@ -227,11 +227,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   donDestroy: 0
-  scoreText: {fileID: 0}
-  resultScoreText: {fileID: 0}
-  highScoreText: {fileID: 0}
-  gameOverView: {fileID: 0}
-  restartButton: {fileID: 0}
+  scoreText: {fileID: 1741643349}
+  resultScoreText: {fileID: 467168017}
+  highScoreText: {fileID: 1755839400}
+  gameOverView: {fileID: 1404106325}
+  restartButton: {fileID: 2129736521}
 --- !u!114 &102777821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,6 +895,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   donDestroy: 0
+  pools:
+  - prefab: {fileID: 7266286396248860345, guid: da64bd0cda8a2b34eb19aca5c84078be, type: 3}
+    count: 20
+  - prefab: {fileID: 7000623502468203588, guid: b766116f361ec59449f59d5f9ca4f38d, type: 3}
+    count: 20
+  - prefab: {fileID: 48163345185143087, guid: 98e49f51cb6cec348b5103b30dd80199, type: 3}
+    count: 40
 --- !u!4 &479049740
 Transform:
   m_ObjectHideFlags: 0
@@ -8183,7 +8190,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -8324,14 +8331,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb37b819c6ba8741bae764770ee86fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
-  jumpPower: 0
-  model: {fileID: 0}
-  trailRenderer: {fileID: 0}
+  moveSpeed: 18
+  jumpPower: 23
+  model: {fileID: 2012818839}
+  trailRenderer: {fileID: 1214615178}
   tileLayer:
     serializedVersion: 2
-    m_Bits: 0
-  moveSound: {fileID: 0}
+    m_Bits: 64
+  jumpSound: {fileID: 8300000, guid: e32e2f97daec2b246bbbd8d62288b86e, type: 3}
 --- !u!4 &2104174339
 Transform:
   m_ObjectHideFlags: 0

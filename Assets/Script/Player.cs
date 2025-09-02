@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     private LayerMask tileLayer;
 
     [SerializeField]
-    private AudioClip moveSound;
+    private AudioClip jumpSound;
+
     #endregion
 
     private Rigidbody _rigidbody;
@@ -31,15 +32,12 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void Start()
-    {
-        SoundManager.Instance.PlaySound(moveSound);
-    }
-
     private void Update()
     {
+        if(Time.timeScale == 0) return;
+
         CheckGround();
-        Jump();
+        TryJump();
 #if UNITY_EDITOR
         Move(Input.GetAxis("Horizontal"));
         Rotate(Input.GetAxis("Horizontal"));
@@ -59,16 +57,21 @@ public class Player : MonoBehaviour
         model.transform.rotation = Quaternion.Euler(30 * acceleration * Vector3.back);
     }
 
-    private void Jump()
+    private void TryJump()
     {
         if (_isGround && Input.GetKeyDown(KeyCode.Space))
         {
-            _rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            Jump();
         }
         if (_isGround && Input.acceleration.y >= 1)
         {
-            _rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            Jump();
         }
+    }
+    private void Jump()
+    {
+        SoundManager.Instance.PlaySFX(jumpSound);
+        _rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
     }
 
     private void CheckGround()

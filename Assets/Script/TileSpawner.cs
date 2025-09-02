@@ -24,11 +24,6 @@ public class TileSpawner : Singleton<TileSpawner>
         Vector3 spawnPosition = _lastTile.transform.position + Vector3.forward * 16;
 
         if (tile != null)
-        {
-
-        }
-
-        if (tile != null)
             _lastTile = tile;
         else
             _lastTile = PoolManager.Instance.SpawnObject(_tilePrefab);

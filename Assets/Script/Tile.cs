@@ -9,11 +9,13 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private Item _item;
 
-    private WaitForSeconds _waitSeceond02;
+    private WaitForSeconds _waitSecond02;
+
+    private int[] spawnPositions = { -8, -4, 0, 4, 8 };
 
     private void Awake()
     {
-        _waitSeceond02 = new WaitForSeconds(2);
+        _waitSecond02 = new WaitForSeconds(2);
     }
 
     private void OnTriggerExit(Collider other)
@@ -26,21 +28,31 @@ public class Tile : MonoBehaviour
 
     public void Setting()
     {
-        bool spawnItem = true;
+        Shuffle();
 
-        for (int i = -2; i < 3; i++)
+        Vector3 spawnPositision = transform.position + Vector3.up * 2 + Vector3.right * spawnPositions[0];
+
+        PoolManager.Instance.SpawnObject(_item, spawnPositision, Quaternion.identity, transform);
+
+        for (int i = 1; i < spawnPositions.Length; i++)
         {
-            Vector3 spawnPositision = transform.position + Vector3.up * 2 + Vector3.right * i * 4;
+            spawnPositision = transform.position + Vector3.up * 2 + Vector3.right * spawnPositions[i];
 
-            if (Random.value < 0.3f && spawnItem)
+            if (Random.value < 0.6f)
             {
-                PoolManager.Instance.SpawnObject(_item, spawnPositision);
-                spawnItem = false;
+                PoolManager.Instance.SpawnObject(_obstacle, spawnPositision, Quaternion.identity, transform);
             }
-            else if(Random.value < 0.6f)
-            {
-                PoolManager.Instance.SpawnObject(_obstacle, spawnPositision);
-            }
+        }
+    }
+
+    private void Shuffle()
+    {
+        for (int i = 0; i < spawnPositions.Length - 1; i++)
+        {
+            int randomInt = Random.Range(i, spawnPositions.Length);
+            int temp = spawnPositions[i];
+            spawnPositions[i] = spawnPositions[randomInt];
+            spawnPositions[randomInt] = temp;
         }
     }
 
@@ -51,7 +63,11 @@ public class Tile : MonoBehaviour
 
     private IEnumerator RespawnCorotine()
     {
-        yield return _waitSeceond02;
+        yield return _waitSecond02;
+        for (int i = transform.childCount -1 ; i >= 0; i--)
+        {
+            PoolManager.Instance.DestroyObject(transform.GetChild(i).gameObject);
+        }
         TileSpawner.Instance.TileSpawn(this);
     }
 }

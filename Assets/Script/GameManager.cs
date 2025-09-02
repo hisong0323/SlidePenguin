@@ -14,6 +14,7 @@ public class GameManager : Singleton<GameManager>
     public event Action OnGameOver;
 
     public event Action OnHighScoreChange;
+
     #endregion
 
     private void Start()
@@ -36,7 +37,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void ScoreUp(int score)
+    public void IncreaseScore(int score)
     {
         _score += score;
         OnChangeScore?.Invoke(_score);
@@ -48,7 +49,7 @@ public class GameManager : Singleton<GameManager>
         while (true)
         {
             yield return wait;
-            ScoreUp(1);
+            IncreaseScore(1);
             if (Time.timeScale < 2)
             {
                 Time.timeScale += 0.001f;

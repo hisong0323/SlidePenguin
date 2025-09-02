@@ -3,7 +3,10 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    private int _score;
+    private int score;
+
+    [SerializeField]
+    private AudioClip pickupSFX;
 
     private void FixedUpdate()
     {
@@ -14,8 +17,9 @@ public class Item : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.ScoreUp(_score);
+            GameManager.Instance.IncreaseScore(score);
             PoolManager.Instance.DestroyObject(gameObject);
+            SoundManager.Instance.PlaySFX(pickupSFX);
         }
     }
 }
